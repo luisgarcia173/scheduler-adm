@@ -1,0 +1,21 @@
+<div class="page-container"
+ [class.custom-dark-theme]="currentTheme === 'dark'"
+ [class.custom-alternative-theme]="currentTheme === 'alternative'">
+
+  <app-header
+    (toggleSideBarAction)="sideBarToggler($event)"
+    (changeThemeHeaderAction)="changeTheme($event)">
+  </app-header>
+  
+  <mat-drawer-container>
+    <mat-drawer mode="side" [opened]="sideBarOpen">
+      <app-sidebar [bgClass]="bgClass"></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  
+  <app-footer [bgClass]="bgClass"></app-footer>
+
+</div>

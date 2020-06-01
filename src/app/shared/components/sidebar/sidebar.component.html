@@ -1,0 +1,41 @@
+<mat-nav-list>
+  <div class="profile-card">
+    <div class="header">
+      <h5>
+        Scheduler Core
+        <small>v1.0.0</small>
+      </h5>
+      <h5>
+        Lastest Update:
+        <small>26/05/2020 13:30</small>
+      </h5>
+      <h5>
+        Lastest Added Feature:
+        <small>Initial Commit</small>
+      </h5>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <h2 matSubheader class="text-info" [ngClass]="bgClass">Pages</h2>
+
+  <a mat-list-item routerLink="/" routerLinkActive="list-item-active">Dashboard</a>
+  <a mat-list-item routerLink="/monitor" routerLinkActive="list-item-active">Monitor</a>
+  <a mat-list-item routerLink="/jobs" routerLinkActive="list-item-active">Jobs</a>
+
+  <mat-divider></mat-divider>
+  
+  <h2 matSubheader [ngClass]="bgClass">Quick Actions</h2>
+
+  <a mat-list-item routerLink="/" routerLinkActive="list-item-active">
+    <mat-icon color="accent">add_alarm</mat-icon>
+    Schedule New Job
+  </a>
+  <a mat-list-item routerLink="/" routerLinkActive="list-item-active">
+    <mat-icon color="accent">dvr</mat-icon>
+    Check Running Jobs
+  </a>
+
+</mat-nav-list>
+

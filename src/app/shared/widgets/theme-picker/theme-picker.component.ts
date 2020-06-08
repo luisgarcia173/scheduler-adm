@@ -16,6 +16,7 @@ export class ThemePickerComponent implements OnInit {
 
   changeTheme(theme: string) {
     this.changeThemeAction.emit(theme);
+    localStorage.setItem('theme', theme);
   }
 
 }

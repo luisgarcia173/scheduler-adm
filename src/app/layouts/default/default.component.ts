@@ -8,12 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class DefaultComponent implements OnInit {
 
   sideBarOpen = true;
-  currentTheme = 'light';
-  bgClass = 'light-bg';
+  currentTheme = '';
+  bgClass = '';
 
   constructor() { }
 
   ngOnInit(): void {
+    this.currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light';
+    this._setThemeBg();
   }
 
   sideBarToggler(event: Event) {
@@ -22,7 +24,11 @@ export class DefaultComponent implements OnInit {
 
   changeTheme(event) {
     this.currentTheme = event;
-    this.bgClass = event + '-bg';
+    this._setThemeBg();
+  }
+
+  private _setThemeBg() {
+    this.bgClass = this.currentTheme + '-bg';
   }
 
 }

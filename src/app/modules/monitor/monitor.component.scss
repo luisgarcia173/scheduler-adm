@@ -1,0 +1,24 @@
+.stats-cards {
+  .mat-card {
+    overflow: hidden;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.table-container {
+  height: 400px;
+  overflow: auto;
+}
+
+section {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.button-row button {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}

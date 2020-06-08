@@ -7,6 +7,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
@@ -32,7 +33,9 @@ import { DefaultComponent } from './default.component';
     MatCardModule,
     FlexLayoutModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [
     DashboardService

@@ -18,7 +18,7 @@
 
   <mat-divider></mat-divider>
 
-  <h2 matSubheader class="text-info" [ngClass]="bgClass">Pages</h2>
+  <h2 matSubheader class="text-info" [ngClass]="theme">Pages</h2>
 
   <a mat-list-item routerLink="/" routerLinkActive="list-item-active">Dashboard</a>
   <a mat-list-item routerLink="/monitor" routerLinkActive="list-item-active">Monitor</a>
@@ -26,7 +26,7 @@
 
   <mat-divider></mat-divider>
   
-  <h2 matSubheader [ngClass]="bgClass">Quick Actions</h2>
+  <h2 matSubheader [ngClass]="theme">Quick Actions</h2>
 
   <a mat-list-item routerLink="/" routerLinkActive="list-item-active">
     <mat-icon color="accent">add_alarm</mat-icon>

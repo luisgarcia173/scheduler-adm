@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class DefaultComponent implements OnInit {
 
   sideBarOpen = true;
-  currentTheme;
+  currentTheme = 'light';
   bgClass = 'light-bg';
 
   constructor() { }

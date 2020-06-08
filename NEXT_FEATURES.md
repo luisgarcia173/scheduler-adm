@@ -1,6 +1,5 @@
 # Next Features: To-Do
 
-- [ ] Breadcrumb
 - [ ] User preferences
 - [ ] Login
 - [ ] Request Back Services

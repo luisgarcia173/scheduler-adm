@@ -1,0 +1,33 @@
+#breadcrumb {
+  margin-bottom: 15px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#breadcrumb .mat-icon {
+  margin-right: 2px;
+}
+
+#breadcrumb.light {
+  background-color: #64b5f6;
+  border: 1px solid #1976d2;
+}
+.light {
+  color: #FFF;
+}
+
+#breadcrumb.dark {
+  background-color: #ffee58;
+  border: 1px solid #f9a825;
+}
+.dark {
+  color: rgba(0,0,0,.6);
+}
+
+#breadcrumb.alternative {
+  background-color: #f8bbd0;
+  border: 1px solid #c2185b;
+}
+.alternative {
+  color: #c2185b;
+}

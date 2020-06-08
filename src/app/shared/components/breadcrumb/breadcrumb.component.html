@@ -1,0 +1,8 @@
+<div [ngClass]="theme" id="breadcrumb">
+  <xng-breadcrumb >
+    <ng-container *xngBreadcrumbItem="let breadcrumb; let info = info;">
+      <mat-icon [ngClass]="theme" *ngIf="info">{{ info }}</mat-icon>
+      <label [ngClass]="theme">{{ breadcrumb }}</label>
+    </ng-container>
+  </xng-breadcrumb>
+</div>

@@ -9,6 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 
+import { BreadcrumbModule } from 'xng-breadcrumb';
+
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -17,6 +19,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { CardComponent } from './widgets/card/card.component';
 import { PieComponent } from './widgets/pie/pie.component';
 import { ThemePickerComponent } from './widgets/theme-picker/theme-picker.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import { ThemePickerComponent } from './widgets/theme-picker/theme-picker.compon
     AreaComponent,
     CardComponent,
     PieComponent,
-    ThemePickerComponent
+    ThemePickerComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +43,7 @@ import { ThemePickerComponent } from './widgets/theme-picker/theme-picker.compon
     MatListModule,
     RouterModule,
     HighchartsChartModule,
+    BreadcrumbModule,
   ],
   exports: [
     HeaderComponent,
@@ -47,7 +52,8 @@ import { ThemePickerComponent } from './widgets/theme-picker/theme-picker.compon
     AreaComponent,
     CardComponent,
     PieComponent,
-    ThemePickerComponent
+    ThemePickerComponent,
+    BreadcrumbComponent
   ]
 })
 export class SharedModule { }

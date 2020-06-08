@@ -8,18 +8,27 @@ import { MonitorComponent } from './modules/monitor/monitor.component';
 const routes: Routes = [{
   path: '',
   component: DefaultComponent,
+  data: {
+    breadcrumb: {
+      label: 'Home',
+      info: 'home'
+    }
+  },
   children: [
     {
       path: '',
-      component: DashboardComponent
+      component: DashboardComponent,
+      data: { breadcrumb: 'Dashboard' }
     },
     {
       path: 'monitor',
-      component: MonitorComponent
+      component: MonitorComponent,
+      data: { breadcrumb: 'Monitor' }
     },
     {
       path: 'jobs',
-      component: JobsComponent
+      component: JobsComponent,
+      data: { breadcrumb: 'Jobs' }
     }
   ]
 }];

@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  @Input() bgClass: string;
+  @Input() theme: string;
 
   constructor() { }
 

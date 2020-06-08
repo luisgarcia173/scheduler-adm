@@ -3,6 +3,9 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.default-bg {
+  background-image: linear-gradient(to right, #6600ff, #c299ff);
+}
 .light-bg {
   background-image: linear-gradient(to right, #1976d2, #64b5f6);
 }
@@ -11,4 +14,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .alternative-bg {
   background-image: linear-gradient(to right, #c2185b, #f8bbd0);
+}
+.green-bg {
+  background-image: linear-gradient(to right, #00b300, #66ff66);
 }

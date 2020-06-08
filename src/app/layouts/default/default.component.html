@@ -1,6 +1,8 @@
 <div class="page-container"
  [class.custom-dark-theme]="currentTheme === 'dark'"
- [class.custom-alternative-theme]="currentTheme === 'alternative'">
+ [class.custom-alternative-theme]="currentTheme === 'alternative'"
+ [class.custom-green-theme]="currentTheme === 'green'"
+ [class.custom-default-theme]="currentTheme === 'default'">
 
   <app-header
     (toggleSideBarAction)="sideBarToggler($event)"

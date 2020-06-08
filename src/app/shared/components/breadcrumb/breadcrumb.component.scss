@@ -31,3 +31,19 @@
 .alternative {
   color: #c2185b;
 }
+
+#breadcrumb.default {
+  background-color: #c299ff;
+  border: 1px solid #6600ff;
+}
+.default {
+  color: #6600ff;
+}
+
+#breadcrumb.green {
+  background-color: #66ff66;
+  border: 1px solid #00b300;
+}
+.green {
+  color: rgba(0,0,0,.6);
+}

@@ -14,7 +14,7 @@ export class DefaultComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light';
+    this.currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'default';
     this._setThemeBg();
   }
 

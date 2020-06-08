@@ -30,10 +30,30 @@ $dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 // Define an alternate theme.
 $alternative-primary: mat-palette($mat-pink, 900);
-$alternative-accent:  mat-palette($mat-pink, A200, A100, A400);
-$alternative-warn:    mat-palette($mat-deep-orange);
-$alternative-theme:   mat-light-theme($alternative-primary, $alternative-accent, $alternative-warn);
+$alternative-accent:  mat-palette($mat-blue-grey, A200, A100, A400);
+$alternative-warn:    mat-palette($mat-yellow);
+$alternative-theme:   mat-dark-theme($alternative-primary, $alternative-accent, $alternative-warn);
 
 .custom-alternative-theme {
   @include angular-material-theme($alternative-theme);
+}
+
+// Define an green theme.
+$green-primary: mat-palette($mat-green, 600);
+$green-accent:  mat-palette($mat-green, A200, A100, A400);
+$green-warn:    mat-palette($mat-red);
+$green-theme:   mat-light-theme($green-primary, $green-accent, $green-warn);
+
+.custom-green-theme {
+  @include angular-material-theme($green-theme);
+}
+
+// Define an default theme.
+$default-primary: mat-palette($mat-deep-purple, A700);
+$default-accent:  mat-palette($mat-indigo, A200, A100, A400);
+$default-warn:    mat-palette($mat-deep-orange);
+$default-theme:   mat-light-theme($default-primary, $default-accent, $default-warn);
+
+.custom-default-theme {
+  @include angular-material-theme($default-theme);
 }

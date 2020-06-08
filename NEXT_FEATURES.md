@@ -3,6 +3,8 @@
 - [ ] Consume Backend services to list
 - [ ] Consume Backend services to persist
 - [ ] LogOut
+- [ ] FAQ
+- [ ] Settings
 
 ## Views: To-Do
 - [ ] Monitor > List Tasks

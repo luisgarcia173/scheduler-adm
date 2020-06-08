@@ -2,16 +2,32 @@
   <mat-icon>format_color_fill</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
+  <button *ngFor="let theme of themes"
+    mat-menu-item (click)="changeTheme(theme.key)"
+    [ngStyle]="{'backgroundColor': (currentTheme === theme.key) ? 'lightgray' : 'white'}"
+  >
+    <mat-icon aria-hidden="false" class="{{theme.key}}-bg {{theme.property}}">invert_colors</mat-icon>
+    {{theme.label}}
+  </button>
+  <!-- <button mat-menu-item (click)="changeTheme('default')" [ngClass]="( currentTheme === 'default') ? 'active' : ''">
+    <mat-icon aria-hidden="false" class="default-bg soft">invert_colors</mat-icon>
+    Default
+  </button>
   <button mat-menu-item (click)="changeTheme('light')">
-    <mat-icon aria-hidden="false" class="light-bg soft">camera</mat-icon>
-    Light
+    <mat-icon aria-hidden="false" class="light-bg soft">invert_colors</mat-icon>
+    Light Blue
+  </button>
+  <button mat-menu-item (click)="changeTheme('green')">
+    <mat-icon aria-hidden="false" class="green-bg soft">invert_colors</mat-icon>
+    Green Scale
   </button>
   <button mat-menu-item (click)="changeTheme('dark')">
-    <mat-icon aria-hidden="false" class="dark-bg dark">camera</mat-icon>
-    Dark
+    <mat-icon aria-hidden="false" class="dark-bg dark">invert_colors</mat-icon>
+    Dark Yellow
   </button>
   <button mat-menu-item (click)="changeTheme('alternative')">
-    <mat-icon aria-hidden="false" class="alternative-bg soft">camera</mat-icon>
-    Alternative
-  </button>
+    <mat-icon aria-hidden="false" class="alternative-bg dark">invert_colors</mat-icon>
+    Dark Wine
+  </button> -->
+  
 </mat-menu>

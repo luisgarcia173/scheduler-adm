@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Scheduler ADM</h2>
+<h2 mat-dialog-title>SCHEDULER ADM</h2>
 <h5>
-  Web Administrator to schedule existing tasks already registerd. It's possible to manage the current execution,
+  Web Administrator to schedole existing tasks already registerd. It's possible to manage the current execution,
   add new tasks, check the status, analyse execution logs and monitoring the running tasks by Dashboard.
 </h5>
 
@@ -8,55 +8,92 @@
 
 <mat-dialog-content class="mat-typography">
 
-  <h3>What's is new in version X.X.X
-    <small><i>(Date: XX/XX/XXXX - Developer: @XXXXX)</i></small>
-  </h3>
+  <!-- <div *ngFor="let notes of releaseNotes">
+    <h3>What's is new in version {{notes.version}}
+      <small><i>(Date: {{notes.date}} - Developer: @{{notes.developer}})</i></small>
+    </h3>
+  
+    <fieldset>
+      <legend>
+        <div class="with-icon">
+          <mat-icon>language</mat-icon>&nbsp;Features
+        </div>
+      </legend>
+      <ol>
+        <li *ngFor="let feature of notes.features">{{feature}}</li>
+      </ol>
+    </fieldset>
+  
+    <br />
+  
+    <fieldset>
+      <legend>
+        <div class="with-icon">
+          <mat-icon>bug_report</mat-icon>&nbsp;Fixed Bugs
+        </div>
+      </legend>
+      <ol>
+        <li *ngFor="let bug of notes.bugs">{{bug}}</li>
+      </ol>
+    </fieldset>
+  
+    <br />
+  
+    <fieldset>
+      <legend>
+        <div class="with-icon">
+          <mat-icon>notification_important</mat-icon>&nbsp;Warning & Notes
+        </div>
+      </legend>
+      <ol>
+        <li *ngFor="let note of notes.notes">{{note}}</li>
+      </ol>
+    </fieldset>
+  
+    <br />
+    <mat-divider></mat-divider>
+    <br />
+  </div> -->
 
-  <fieldset>
-    <legend>
-      <div class="with-icon">
-        <mat-icon>language</mat-icon>&nbsp;Added Features
+  <div *ngFor="let notes of releaseNotes">
+    <div class="responsible">( Date: {{notes.date}} - Developer: @{{notes.developer}} )</div>
+    <fieldset class="side-margin">
+      <legend>
+        <span class="title">
+          What's is new in version {{notes.version}}
+        </span>
+      </legend>
+
+      <div class="with-icon mt-10 feature-color">
+        <mat-icon>language</mat-icon>&nbsp;Features
       </div>
-    </legend>
-    <ul>
-      <li>F1</li>
-      <li>F2</li>
-      <li>F3</li>
-    </ul>
-  </fieldset>
+      <i *ngIf="notes.features.length === 0">~ No Content ~</i>
+      <ol>
+        <li *ngFor="let feature of notes.features">{{feature}}</li>
+      </ol>
+      <mat-divider></mat-divider><br />
 
-  <br />
-
-  <fieldset>
-    <legend>
-      <div class="with-icon">
+      <div class="with-icon bug-color">
         <mat-icon>bug_report</mat-icon>&nbsp;Fixed Bugs
       </div>
-    </legend>
-    <ul>
-      <li>B1</li>
-      <li>B2</li>
-      <li>B3</li>
-    </ul>
-  </fieldset>
+      <i *ngIf="notes.bugs.length === 0">~ No Content ~</i>
+      <ol>
+        <li *ngFor="let bug of notes.bugs">{{bug}}</li>
+      </ol>
+      <mat-divider></mat-divider><br />
 
-  <br />
-
-  <fieldset>
-    <legend>
-      <div class="with-icon">
+      <div class="with-icon warnings-color">
         <mat-icon>notification_important</mat-icon>&nbsp;Warning & Notes
       </div>
-    </legend>
-    <ul>
-      <li>N1</li>
-      <li>N2</li>
-      <li>N3</li>
-    </ul>
-  </fieldset>
-
-  <br />
-  <mat-divider></mat-divider>
-  <br />
+      <i *ngIf="notes.notes.length === 0">~ No Content ~</i>
+      <ol>
+        <li *ngFor="let note of notes.notes">{{note}}</li>
+      </ol>
+    </fieldset>
+    
+    <br />
+    <mat-divider></mat-divider>
+    <br />
+  </div>
 
 </mat-dialog-content>

@@ -14,7 +14,7 @@ export class ReleaseNotesComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.getJSON('assets/release_notes.json').subscribe(data => {
+    this.getJSON('assets/release-notes.json').subscribe(data => {
       this.releaseNotes = data;
      });
   }

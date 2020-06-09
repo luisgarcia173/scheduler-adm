@@ -3,9 +3,35 @@
   align-items: center;
   margin-left: 5px;
   margin-right: 7px;
+  color: rgb(128, 15, 11);
 }
 
-.with-icon-no-margin {
-  display: flex;
-  align-items: center;
+.feature-color {
+  color: green
+}
+.bug-color {
+  color: red
+}
+.warnings-color {
+  color: orange
+}
+
+.side-margin {
+  border-width: 1px;
+}
+
+.title {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.responsible {
+  text-align: right;
+  font-size: 0.75em;
+}
+
+.mt-10 {
+  margin-top: 10px;
 }

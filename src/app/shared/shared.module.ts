@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 
@@ -20,6 +21,8 @@ import { CardComponent } from './widgets/card/card.component';
 import { PieComponent } from './widgets/pie/pie.component';
 import { ThemePickerComponent } from './widgets/theme-picker/theme-picker.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { ReleaseNotesComponent } from './components/release-notes/release-notes.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     PieComponent,
     ThemePickerComponent,
     BreadcrumbComponent,
+    ReleaseNotesComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +48,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     RouterModule,
     HighchartsChartModule,
     BreadcrumbModule,
+    MatDialogModule,
+    HttpClientModule
   ],
   exports: [
     HeaderComponent,
@@ -53,7 +59,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     CardComponent,
     PieComponent,
     ThemePickerComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ReleaseNotesComponent,
   ]
 })
 export class SharedModule { }

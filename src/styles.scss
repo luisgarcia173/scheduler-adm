@@ -18,3 +18,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .green-bg {
   background-image: linear-gradient(to right, #00b300, #66ff66);
 }
+
+table {
+  width: 100%;
+}
+
+.table-container {
+  overflow: auto;
+}
+
+section {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.button-row button {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}

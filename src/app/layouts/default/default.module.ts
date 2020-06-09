@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
@@ -35,7 +36,8 @@ import { DefaultComponent } from './default.component';
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [
     DashboardService

@@ -16,7 +16,7 @@ export class ReleaseNotesComponent implements OnInit {
   ngOnInit(): void {
     this.getJSON('assets/release-notes.json').subscribe(data => {
       this.releaseNotes = data;
-     });
+    });
   }
 
   public getJSON(jsonURL: string): Observable<any> {

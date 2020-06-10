@@ -18,7 +18,7 @@ export class MonitorComponent implements OnInit {
   taskManagerColumns = [
     { columnDef: 'className', type: 'common', header: 'Job Name', cell: (row: JobStructure) => row.className },
     { columnDef: 'group', type: 'common', header: 'Group', cell: (row: JobStructure) => row.group },
-    // { columnDef: 'state', type: 'common', header: 'State', cell: (row: JobStructure) => row.state },
+    { columnDef: 'description', type: 'common', header: 'Description', cell: (row: JobStructure) => row.description },
     {
       columnDef: 'frequency',
       type: 'common',
@@ -124,12 +124,20 @@ export class MonitorComponent implements OnInit {
     });
   }
 
-  refreshLogs() {
+  refreshLogs(isFullReload?: boolean) {
     this.jobsDataSource = new MatTableDataSource<JobStructure>();
     this.isJobsLoading = true;
+    if (isFullReload) {
+      this.taskManagerDataSource = new MatTableDataSource<JobStructure>();
+      this.isTaskLoading = true;
+    }
     this.monitorService.listJobs().subscribe(jobs => {
       this.jobsDataSource = new MatTableDataSource<JobStructure>(jobs);
       this.isJobsLoading = false;
+      if (isFullReload) {
+        this.taskManagerDataSource = new MatTableDataSource<JobStructure>(jobs);
+        this.isTaskLoading = false;
+      }
     });
   }
 
@@ -142,14 +150,23 @@ export class MonitorComponent implements OnInit {
 
   execute(row: JobStructure) {
     this.monitorService.execute(row.name, row.group).subscribe(
-      data => this._treatAlertMsg(data),
+      data => this._treatAlertMsg(data, false, true),
       err => this._treatAlertMsg(err, true)
     );
   }
 
+  remove(row: JobStructure) {
+    if (confirm('Are you sure to remove this Job permanently?')) {
+      this.monitorService.remove(row.name, row.group).subscribe(
+        data => this._treatAlertMsg(data, false, true),
+        err => this._treatAlertMsg(err, true)
+      );
+    }
+  }
+
   unschedule(row: JobStructure) {
     this.monitorService.unschedule(row.name, row.group).subscribe(
-      data => this._treatAlertMsg(data),
+      data => this._treatAlertMsg(data, false, true),
       err => this._treatAlertMsg(err, true)
     );
   }
@@ -184,13 +201,13 @@ export class MonitorComponent implements OnInit {
     });
   }
 
-  _treatAlertMsg(data: any, isError?: boolean) {
+  _treatAlertMsg(data: any, isError?: boolean, isFullReload?: boolean) {
     if (data) {
       if (isError) {
         this.alertService.error(data.error.message, this.alertOptions);
       } else {
         this.alertService.success(data.message, this.alertOptions);
-        this.refreshLogs();
+        this.refreshLogs(isFullReload);
       }
     }
   }

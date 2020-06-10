@@ -34,6 +34,10 @@ export class MonitorService {
     return this.http.put<any>(`${API}/${name}/group/${group}/unschedule`, {});
   }
 
+  remove(name: string, group: string): Observable<any>  {
+    return this.http.delete<any>(`${API}/${name}/group/${group}`, {});
+  }
+
 }
 
 export interface JobStructure {

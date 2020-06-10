@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { JobStructure } from 'src/app/shared/models/job-structure';
 
 const API: string = environment.jobsAPI;
 
@@ -40,15 +41,3 @@ export class MonitorService {
 
 }
 
-export interface JobStructure {
-  name: string;
-  className: string;
-  group: string;
-  description: string;
-  cronExpression: string;
-  state: string;
-  startTime: number;
-  endTime: number;
-  nextFireTime: number;
-  previousFireTime: number;
-}

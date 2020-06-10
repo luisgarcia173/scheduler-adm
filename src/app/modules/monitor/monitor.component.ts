@@ -4,8 +4,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import cronstrue from 'cronstrue';
 import * as moment from 'moment';
-import { JobStructure, MonitorService } from './monitor.service';
+import { MonitorService } from './monitor.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
+import { JobStructure } from 'src/app/shared/models/job-structure';
 
 
 @Component({

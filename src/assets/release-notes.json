@@ -15,7 +15,8 @@
       "Added a loop function to all running jobs"
     ],
     "bugs": [
-      "Fixed missing minutes in date format process"
+      "Fixed missing minutes in date format process",
+      "Removed shared model from monitor service"
     ],
     "notes": [
       

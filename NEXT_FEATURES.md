@@ -5,7 +5,7 @@
 - [ ] LogOut
 - [ ] FAQ
 - [ ] Settings
-- [ ] Release Notes
+- [ ] Validations
 
 ## Views: To-Do
 - [ ] Monitor > List Tasks

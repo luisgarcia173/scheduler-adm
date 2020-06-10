@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
@@ -18,6 +19,7 @@ import { JobsComponent } from 'src/app/modules/jobs/jobs.component';
 import { MonitorComponent } from 'src/app/modules/monitor/monitor.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DefaultComponent } from './default.component';
+import { MonitorService } from 'src/app/modules/monitor/monitor.service';
 
 @NgModule({
   declarations: [
@@ -39,10 +41,12 @@ import { DefaultComponent } from './default.component';
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
   ],
   providers: [
-    DashboardService
+    DashboardService,
+    MonitorService
   ]
 })
 export class DefaultModule { }

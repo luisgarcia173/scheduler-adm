@@ -1,14 +1,21 @@
 [
   {
     "version": "0.2.1",
-    "date": "09/06/2020",
+    "date": "10/06/2020",
     "developer": "Luis Garcia",
     "features": [
       "Added Release Notes styles",
-      "Added Sorting to Tables"
+      "Added Sorting to Tables",
+      "Added Spinner to Tables",
+      "Tasks and Jobs are loading from Backend services",
+      "Added Jobs reloading action",
+      "Added Tooltips to Action Icons",
+      "Added Alert component (Toaster)",
+      "Added control actions",
+      "Added a loop function to all running jobs"
     ],
     "bugs": [
-      
+      "Fixed missing minutes in date format process"
     ],
     "notes": [
       

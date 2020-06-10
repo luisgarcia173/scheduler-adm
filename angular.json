@@ -32,7 +32,7 @@
               "src/styles.scss",
               "src/themes.scss"
             ],
-            "scripts": []
+            "scripts": [ ]
           },
           "configurations": {
             "production": {

@@ -11,7 +11,7 @@
         <mat-icon>library_add</mat-icon>
         Add New
       </button>
-      <button mat-stroked-button color="warn">
+      <button mat-stroked-button color="warn" (click)="stopAll()">
         <mat-icon>error_outline</mat-icon>
         Stop All
       </button>
@@ -29,16 +29,23 @@
           </div>
           <div *ngIf="column.type === 'actions'">
             <td mat-cell *matCellDef="let row">
-              <mat-icon class="mr-5" *ngFor="let action of column.actions" color={{action.color}}>{{action.icon}}</mat-icon>
+              <mat-icon 
+                matTooltip="{{action.alt}}" class="mr-5" 
+                *ngFor="let action of column.actions"
+                color={{action.color}}
+                (click)="actionInvoke(action.event, row)"
+              >
+                {{action.icon}}
+              </mat-icon>
             </td>
           </div>
           <div *ngIf="column.type === 'settings'">
             <td mat-cell *matCellDef="let row">
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Admin Settings">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Admin Settings" matTooltip="Admin Settings">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item *ngFor="let setting of column.settings">
+                <button mat-menu-item *ngFor="let setting of column.settings" (click)="actionInvoke(setting.event, row)">
                   <mat-icon>{{setting.icon}}</mat-icon>
                   <span>{{setting.alt}}</span>
                 </button>
@@ -50,6 +57,7 @@
         <tr mat-header-row *matHeaderRowDef="taskManagerDisplayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: taskManagerDisplayedColumns;"></tr>
       </table>
+      <app-widget-spinner [isLoading]="isTaskLoading"></app-widget-spinner>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
   </mat-card-content>
@@ -68,7 +76,7 @@
 
   <section>
     <div class="button-row">
-      <button mat-stroked-button color="primary">
+      <button mat-stroked-button color="primary" (click)="refreshLogs()">
         <mat-icon>autorenew</mat-icon>
         Refresh Logs
       </button>
@@ -89,7 +97,9 @@
         <tr mat-header-row *matHeaderRowDef="jobsDisplayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: jobsDisplayedColumns;"></tr>
       </table>
+      <app-widget-spinner [isLoading]="isJobsLoading"></app-widget-spinner>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
+
   </mat-card-content>
 </mat-card>

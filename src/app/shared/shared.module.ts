@@ -9,6 +9,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
 
 import { BreadcrumbModule } from 'xng-breadcrumb';
 
@@ -22,7 +25,9 @@ import { PieComponent } from './widgets/pie/pie.component';
 import { ThemePickerComponent } from './widgets/theme-picker/theme-picker.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { ReleaseNotesComponent } from './components/release-notes/release-notes.component';
-import { HttpClientModule } from '@angular/common/http';
+import { SpinnerComponent } from './widgets/spinner/spinner.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { AlertService } from './components/alert/alert.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,8 @@ import { HttpClientModule } from '@angular/common/http';
     ThemePickerComponent,
     BreadcrumbComponent,
     ReleaseNotesComponent,
+    SpinnerComponent,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +56,9 @@ import { HttpClientModule } from '@angular/common/http';
     HighchartsChartModule,
     BreadcrumbModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     HeaderComponent,
@@ -61,6 +70,11 @@ import { HttpClientModule } from '@angular/common/http';
     ThemePickerComponent,
     BreadcrumbComponent,
     ReleaseNotesComponent,
+    SpinnerComponent,
+    AlertComponent
+  ],
+  providers: [
+    AlertService
   ]
 })
 export class SharedModule { }

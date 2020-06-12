@@ -2,18 +2,13 @@
 ## Next Features: To-Do
 - [ ] Consume Backend services to list
 - [ ] Consume Backend services to persist
-- [ ] LogOut
-- [ ] FAQ
-- [ ] Settings
+- [ ] LogOut (Spring)
+- [ ] FAQ (GIF Tutorial)
+- [ ] Settings (Check Availability)
 - [ ] Validations
 
 ## Views: To-Do
-- [ ] Monitor > List Tasks
-- [ ] Monitor > List Execution Logs
-- [ ] Monitor > Include Task (Form)
-- [ ] Monitor > Add table control (Stop / Resume / Pause)
-- [ ] Jobs > List Job Groups
+- [ ] Jobs > Register Job
 - [ ] Jobs > List Jobs and Edit (Change Cron)
-- [ ] Jobs > Include Job Groups
-- [ ] Jobs > Include Jobs
+- [ ] Jobs > Hide / Show (Form Input)
 - [ ] Dashboard > Rebuild Charts

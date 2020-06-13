@@ -12,7 +12,8 @@
       "Added Tooltips to Action Icons",
       "Added Alert component (Toaster)",
       "Added control actions",
-      "Added a loop function to all running jobs"
+      "Added a loop function to all running jobs",
+      "Added server status"
     ],
     "bugs": [
       "Fixed missing minutes in date format process",

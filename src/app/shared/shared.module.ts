@@ -28,6 +28,7 @@ import { ReleaseNotesComponent } from './components/release-notes/release-notes.
 import { SpinnerComponent } from './widgets/spinner/spinner.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './components/alert/alert.service';
+import { ServerStatusComponent } from './components/server-status/server-status.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AlertService } from './components/alert/alert.service';
     ReleaseNotesComponent,
     SpinnerComponent,
     AlertComponent,
+    ServerStatusComponent,
   ],
   imports: [
     CommonModule,
@@ -71,7 +73,8 @@ import { AlertService } from './components/alert/alert.service';
     BreadcrumbComponent,
     ReleaseNotesComponent,
     SpinnerComponent,
-    AlertComponent
+    AlertComponent,
+    ServerStatusComponent
   ],
   providers: [
     AlertService

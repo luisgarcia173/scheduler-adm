@@ -7,7 +7,7 @@ const baseAPI = `http://localhost:9000`;
 export const environment = {
   production: false,
 
-
+  pingAPI: `${baseAPI}/scheduler/status`,
   jobsAPI: `${baseAPI}/scheduler/jobs`,
 };
 

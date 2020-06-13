@@ -6,6 +6,7 @@
 - [ ] FAQ (GIF Tutorial)
 - [ ] Settings (Check Availability)
 - [ ] Validations
+- [ ] Server Status
 
 ## Views: To-Do
 - [ ] Jobs > Register Job

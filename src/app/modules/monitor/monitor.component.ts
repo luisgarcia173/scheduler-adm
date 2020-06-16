@@ -89,8 +89,10 @@ export class MonitorComponent implements OnInit {
   jobsDisplayedColumns = [];
   jobsDataSource = new MatTableDataSource<JobStructure>();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('taskPaginator', { read: MatPaginator }) taskPaginator: MatPaginator;
+  @ViewChild('jobPaginator', { read: MatPaginator }) jobPaginator: MatPaginator;
+  @ViewChild('taskSort', { read: MatSort }) taskSort: MatSort;
+  @ViewChild('jobSort', { read: MatSort }) jobSort: MatSort;
 
   isTaskLoading = true;
   isJobsLoading = true;
@@ -112,12 +114,12 @@ export class MonitorComponent implements OnInit {
     this.jobsService.listJobs().subscribe(jobs => {
 
       this.taskManagerDataSource = new MatTableDataSource<JobStructure>(jobs);
-      this.taskManagerDataSource.paginator = this.paginator;
-      this.taskManagerDataSource.sort = this.sort;
+      this.taskManagerDataSource.paginator = this.taskPaginator;
+      this.taskManagerDataSource.sort = this.taskSort;
 
       this.jobsDataSource = new MatTableDataSource<JobStructure>(jobs);
-      this.jobsDataSource.paginator = this.paginator;
-      this.jobsDataSource.sort = this.sort;
+      this.jobsDataSource.paginator = this.jobPaginator;
+      this.jobsDataSource.sort = this.jobSort;
 
       this.isTaskLoading = false;
       this.isJobsLoading = false;

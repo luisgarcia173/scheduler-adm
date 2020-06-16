@@ -16,7 +16,7 @@
 
   <mat-card-content>
     <div class="table-container mat-elevation-z8">
-      <table mat-table matSort [dataSource]="taskManagerDataSource">
+      <table mat-table matSort #taskSort [dataSource]="taskManagerDataSource">
 
         <ng-container *ngFor="let column of taskManagerColumns" matColumnDef="{{column.columnDef}}">
           <th mat-header-cell mat-sort-header *matHeaderCellDef> {{column.header}} </th>
@@ -54,7 +54,7 @@
         <tr mat-row *matRowDef="let row; columns: taskManagerDisplayedColumns;"></tr>
       </table>
       <app-widget-spinner [isLoading]="isTaskLoading"></app-widget-spinner>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator #taskPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>
@@ -81,7 +81,7 @@
 
   <mat-card-content>
     <div class="table-container mat-elevation-z8">
-      <table mat-table matSort [dataSource]="jobsDataSource">
+      <table mat-table matSort #jobSort [dataSource]="jobsDataSource">
 
         <ng-container *ngFor="let column of jobsColumns" matColumnDef="{{column.columnDef}}">
           <th mat-header-cell mat-sort-header *matHeaderCellDef> {{column.header}} </th>
@@ -94,7 +94,7 @@
         <tr mat-row *matRowDef="let row; columns: jobsDisplayedColumns;"></tr>
       </table>
       <app-widget-spinner [isLoading]="isJobsLoading"></app-widget-spinner>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator #jobPaginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
 
   </mat-card-content>

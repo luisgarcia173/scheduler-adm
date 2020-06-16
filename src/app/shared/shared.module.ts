@@ -29,6 +29,7 @@ import { SpinnerComponent } from './widgets/spinner/spinner.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './components/alert/alert.service';
 import { ServerStatusComponent } from './components/server-status/server-status.component';
+import { JobsService } from './services/jobs.service';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { ServerStatusComponent } from './components/server-status/server-status.
     ServerStatusComponent
   ],
   providers: [
-    AlertService
+    AlertService,
+    JobsService
   ]
 })
 export class SharedModule { }

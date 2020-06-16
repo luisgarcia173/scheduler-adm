@@ -1,5 +1,20 @@
 [
   {
+    "version": "0.3.1",
+    "date": "15/06/2020",
+    "developer": "Luis Garcia",
+    "features": [
+      "Added new Job Form",
+      "Added new Cron generator feature"
+    ],
+    "bugs": [
+    
+    ],
+    "notes": [
+      
+    ]
+  },
+  {
     "version": "0.3.0",
     "date": "10/06/2020",
     "developer": "Luis Garcia",

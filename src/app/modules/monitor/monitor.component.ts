@@ -2,12 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import cronstrue from 'cronstrue';
-import * as moment from 'moment';
-import { MonitorService } from './monitor.service';
 import { AlertService } from 'src/app/shared/components/alert/alert.service';
 import { JobStructure } from 'src/app/shared/models/job-structure';
-
+import { JobsService } from 'src/app/shared/services/jobs.service';
+import CronUtils from 'src/app/shared/utils/cron-utils';
+import TimeUtils from 'src/app/shared/utils/time-utils';
 
 @Component({
   selector: 'app-monitor',
@@ -24,7 +23,7 @@ export class MonitorComponent implements OnInit {
       columnDef: 'frequency',
       type: 'common',
       header: 'Frequency',
-      cell: (row: JobStructure) => this._getTimeFromCron(row.cronExpression)
+      cell: (row: JobStructure) => CronUtils.getTimeFromCron(row.cronExpression)
     },
     {
       columnDef: 'control', header: 'Execution Control',
@@ -59,31 +58,31 @@ export class MonitorComponent implements OnInit {
       columnDef: 'frequency',
       type: 'common',
       header: 'Frequency',
-      cell: (row: JobStructure) => this._getTimeFromCron(row.cronExpression) as 'frequency'
+      cell: (row: JobStructure) => CronUtils.getTimeFromCron(row.cronExpression) as 'frequency'
     },
     {
       columnDef: 'previousFireTime',
       type: 'common',
       header: 'Last Execution',
-      cell: (row: JobStructure) => this._getFormattedDateFromTime(row.previousFireTime)
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.previousFireTime)
     },
     {
       columnDef: 'nextFireTime',
       type: 'common',
       header: 'Next Execution',
-      cell: (row: JobStructure) => this._getFormattedDateFromTime(row.nextFireTime)
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.nextFireTime)
     },
     {
       columnDef: 'startTime',
       type: 'common',
       header: 'Start Date',
-      cell: (row: JobStructure) => this._getFormattedDateFromTime(row.startTime)
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.startTime)
     },
     {
       columnDef: 'endTime',
       type: 'common',
       header: 'End Date',
-      cell: (row: JobStructure) => this._getFormattedDateFromTime(row.endTime)
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.endTime)
     },
   ];
 
@@ -102,7 +101,7 @@ export class MonitorComponent implements OnInit {
   };
 
   constructor(
-    private monitorService: MonitorService,
+    private jobsService: JobsService,
     private alertService: AlertService
   ) { }
 
@@ -110,7 +109,7 @@ export class MonitorComponent implements OnInit {
     this.jobsDisplayedColumns = this.jobsColumns.map(column => column.columnDef);
     this.taskManagerDisplayedColumns = this.taskManagerColumns.map(column => column.columnDef);
 
-    this.monitorService.listJobs().subscribe(jobs => {
+    this.jobsService.listJobs().subscribe(jobs => {
 
       this.taskManagerDataSource = new MatTableDataSource<JobStructure>(jobs);
       this.taskManagerDataSource.paginator = this.paginator;
@@ -132,7 +131,7 @@ export class MonitorComponent implements OnInit {
       this.taskManagerDataSource = new MatTableDataSource<JobStructure>();
       this.isTaskLoading = true;
     }
-    this.monitorService.listJobs().subscribe(jobs => {
+    this.jobsService.listJobs().subscribe(jobs => {
       this.jobsDataSource = new MatTableDataSource<JobStructure>(jobs);
       this.isJobsLoading = false;
       if (isFullReload) {
@@ -150,7 +149,7 @@ export class MonitorComponent implements OnInit {
   }
 
   execute(row: JobStructure) {
-    this.monitorService.execute(row.name, row.group).subscribe(
+    this.jobsService.execute(row.name, row.group).subscribe(
       data => this._treatAlertMsg(data, false, true),
       err => this._treatAlertMsg(err, true)
     );
@@ -158,7 +157,7 @@ export class MonitorComponent implements OnInit {
 
   remove(row: JobStructure) {
     if (confirm('Are you sure to remove this Job permanently?')) {
-      this.monitorService.remove(row.name, row.group).subscribe(
+      this.jobsService.remove(row.name, row.group).subscribe(
         data => this._treatAlertMsg(data, false, true),
         err => this._treatAlertMsg(err, true)
       );
@@ -166,37 +165,37 @@ export class MonitorComponent implements OnInit {
   }
 
   unschedule(row: JobStructure) {
-    this.monitorService.unschedule(row.name, row.group).subscribe(
+    this.jobsService.unschedule(row.name, row.group).subscribe(
       data => this._treatAlertMsg(data, false, true),
       err => this._treatAlertMsg(err, true)
     );
   }
 
   resume(row: JobStructure) {
-    this.monitorService.resume(row.name, row.group).subscribe(
+    this.jobsService.resume(row.name, row.group).subscribe(
       data => this._treatAlertMsg(data),
       err => this._treatAlertMsg(err, true)
     );
   }
 
   pause(row: JobStructure) {
-    this.monitorService.pause(row.name, row.group).subscribe(
+    this.jobsService.pause(row.name, row.group).subscribe(
       data => this._treatAlertMsg(data),
       err => this._treatAlertMsg(err, true)
     );
   }
 
   stop(row: JobStructure) {
-    this.monitorService.stop(row.name, row.group).subscribe(
+    this.jobsService.stop(row.name, row.group).subscribe(
       data => this._treatAlertMsg(data),
       err => this._treatAlertMsg(err, true)
     );
   }
 
   stopAll() {
-    this.monitorService.listJobs().subscribe(jobs => {
+    this.jobsService.listJobs().subscribe(jobs => {
       jobs.forEach(job => {
-        this.monitorService.stop(job.name, job.group).subscribe(() => {});
+        this.jobsService.stop(job.name, job.group).subscribe(() => {});
       });
       this.alertService.success('Requested to stop each runnning job in execution, check the logs in a few moments.', this.alertOptions);
     });
@@ -211,20 +210,6 @@ export class MonitorComponent implements OnInit {
         this.refreshLogs(isFullReload);
       }
     }
-  }
-
-  _getFormattedDateFromTime(time: number) {
-    const formattedDate = (time && time > 0) ?
-      moment(time).format('DD/MM/YYYY HH:mm:ss') :
-      ' - ';
-    return formattedDate;
-  }
-
-  _getTimeFromCron(cron: string) {
-    const readableCron = (cron && cron !== '') ?
-      cronstrue.toString(cron) :
-      ' - ';
-    return readableCron;
   }
 
 }

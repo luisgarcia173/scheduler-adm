@@ -1,59 +1,5 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Job Groups</mat-card-title>
-    <mat-card-subtitle>List of existing Job Groups.</mat-card-subtitle>
-  </mat-card-header>
-  <mat-divider></mat-divider>
-
-  <section>
-    <div class="button-row">
-      <button mat-stroked-button color="primary">
-        <mat-icon>library_add</mat-icon>
-        Add New
-      </button>
-    </div>
-  </section>
-
-  <mat-card-content>
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  </mat-card-content>
-</mat-card>
-
-<br />
-<mat-divider></mat-divider>
-<br />
-
-<mat-card>
-  <mat-card-header>
     <mat-card-title>Jobs</mat-card-title>
     <mat-card-subtitle>List of existing Jobs.</mat-card-subtitle>
   </mat-card-header>
@@ -61,44 +7,126 @@
 
   <section>
     <div class="button-row">
-      <button mat-stroked-button color="primary">
+      <button mat-stroked-button color="primary" (click)="showForm()" *ngIf="!isFormVisible">
         <mat-icon>library_add</mat-icon>
         Add New
+      </button>
+      <button mat-stroked-button color="warn" (click)="add()" *ngIf="isFormVisible">
+        <mat-icon>save</mat-icon>
+        Save
       </button>
     </div>
   </section>
 
   <mat-card-content>
+
+    <div *ngIf="isFormVisible">
+      <mat-card>
+
+        <mat-tab-group mat-align-tabs="start">
+          <mat-tab label="{{ (!isEditMode) ? 'NEW' : 'EDIT'}}" disabled>
+            <br />
+            <form novalidate [formGroup]="jobForm" (ngSubmit)="add()">
+
+              <div [fxLayout]="formLayout">
+                <mat-form-field fxFlex>
+                  <mat-label>Group</mat-label>
+                  <input matInput placeholder="Group" formControlName="group" required>
+                </mat-form-field>
+                <mat-form-field fxFlex>
+                  <mat-label>Description</mat-label>
+                  <input matInput placeholder="Description" formControlName="description" required>
+                </mat-form-field>
+                <mat-form-field fxFlex>
+                  <mat-label>Job</mat-label>
+                  <mat-select formControlName="job" required>
+                    <mat-option>Select</mat-option>
+                    <mat-option *ngFor="let job of availableJobs" [value]="job">
+                      {{job}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex>
+                  <mat-label>Execution Type</mat-label>
+                  <mat-select formControlName="executionType" required>
+                    <mat-option value="1">Single Execution</mat-option>
+                    <mat-option value="2">Scheduled</mat-option>
+                    <mat-option value="3">Routine</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+    
+              <div  [fxLayout]="formLayout">
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '2'">
+                  <mat-label>Frequency</mat-label>
+                  <mat-select formControlName="frequency">
+                    <mat-option value="1">Daily</mat-option>
+                    <mat-option value="2">Weekly</mat-option>
+                    <mat-option value="3">Monthly</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '2'">
+                  <mat-label>Hour</mat-label>
+                  <input matInput type="number" placeholder="Hour" formControlName="frequencyHour">
+                </mat-form-field>
+    
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '3'">
+                  <mat-label>Time</mat-label>
+                  <input matInput type="number" placeholder="Time" formControlName="routineTime">
+                </mat-form-field>
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '3'">
+                  <mat-label>Type</mat-label>
+                  <mat-select formControlName="routineType">
+                    <mat-option value="1">Hour</mat-option>
+                    <mat-option value="2">Minute</mat-option>
+                    <mat-option value="3">Second</mat-option>
+                  </mat-select>
+                </mat-form-field>
+    
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value !== '1'">
+                  <mat-label>Start Date</mat-label>
+                  <input matInput [matDatepicker]="startDate" formControlName="startDate">
+                  <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                  <mat-datepicker #startDate></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value !== '1'">
+                  <mat-label>End Date</mat-label>
+                  <input matInput [matDatepicker]="endDate" formControlName="endDate">
+                  <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                  <mat-datepicker #endDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+    
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+
+      </mat-card>
+      <br />
+    </div>
+
     <div class="table-container mat-elevation-z8">
-      <table mat-table matSort [dataSource]="dataSource">
+      <table mat-table matSort [dataSource]="jobsDataSource">
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        <ng-container *ngFor="let column of jobsColumns" matColumnDef="{{column.columnDef}}">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef> {{column.header}} </th>
+          <div *ngIf="column.type === 'common'">
+            <td mat-cell *matCellDef="let row"> {{column.cell(row)}} </td>
+          </div>
+          <div *ngIf="column.type === 'actions'">
+            <td mat-cell *matCellDef="let row">
+              <mat-icon matTooltip="{{action.alt}}" class="mr-5" *ngFor="let action of column.actions"
+                color={{action.color}} (click)="actionInvoke(action.event, row)">
+                {{action.icon}}
+              </mat-icon>
+            </td>
+          </div>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef> Weight </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef> Symbol </th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="jobsDisplayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: jobsDisplayedColumns;"></tr>
       </table>
+      <app-widget-spinner [isLoading]="isJobsLoading"></app-widget-spinner>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
   </mat-card-content>

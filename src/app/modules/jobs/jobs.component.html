@@ -11,9 +11,13 @@
         <mat-icon>library_add</mat-icon>
         Add New
       </button>
-      <button mat-stroked-button color="warn" (click)="add()" *ngIf="isFormVisible">
+      <button mat-stroked-button color="primary" (click)="save()" *ngIf="isFormVisible">
         <mat-icon>save</mat-icon>
         Save
+      </button>
+      <button mat-stroked-button color="warn" (click)="showForm()" *ngIf="isFormVisible">
+        <mat-icon>cancel</mat-icon>
+        Cancel
       </button>
     </div>
   </section>
@@ -26,7 +30,7 @@
         <mat-tab-group mat-align-tabs="start">
           <mat-tab label="{{ (!isEditMode) ? 'NEW' : 'EDIT'}}" disabled>
             <br />
-            <form novalidate [formGroup]="jobForm" (ngSubmit)="add()">
+            <form novalidate [formGroup]="jobForm">
 
               <div [fxLayout]="formLayout">
                 <mat-form-field fxFlex>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -62,7 +62,8 @@ export class JobsComponent implements OnInit {
   constructor(
     private jobsService: JobsService,
     private formBuilder: FormBuilder,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private changeDetectorRefs: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -70,7 +71,7 @@ export class JobsComponent implements OnInit {
     this._checkFormLayout();
     this._initForm();
     this.jobsDisplayedColumns = this.jobsColumns.map(column => column.columnDef);
-    this._renewSearch(true);
+    this._renewSearch();
 
     this.jobsService.listAvailableJobs().subscribe(jobs => {
       this.availableJobs = jobs;
@@ -89,6 +90,7 @@ export class JobsComponent implements OnInit {
 
   _initForm() {
     this.jobForm = this.formBuilder.group({
+      name: [''],
       group: [''],
       description: [''],
       job: [''],
@@ -107,16 +109,15 @@ export class JobsComponent implements OnInit {
     this.jobForm.get('executionType').setValue('1');
   }
 
-  _renewSearch(isFirstLoad?: boolean) {
+  _renewSearch() {
     this.jobsDataSource = new MatTableDataSource<JobStructure>();
     this.isJobsLoading = true;
     this.jobsService.listJobs().subscribe(jobs => {
       this.jobsDataSource = new MatTableDataSource<JobStructure>(jobs);
       this.isJobsLoading = false;
-      if (isFirstLoad) {
-        this.jobsDataSource.paginator = this.paginator;
-        this.jobsDataSource.sort = this.sort;
-      }
+      this.jobsDataSource.paginator = this.paginator;
+      this.jobsDataSource.sort = this.sort;
+      this.changeDetectorRefs.detectChanges();
     });
   }
 
@@ -128,10 +129,24 @@ export class JobsComponent implements OnInit {
   }
 
   edit(row: JobStructure) {
-    console.log('Editting', row);
+    this.isEditMode = true;
+    this.jobForm.reset();
+
+    this.jobForm.get('name').setValue(row.name);
+    this.jobForm.get('group').setValue(row.group);
+    this.jobForm.get('description').setValue(row.description);
+    this.jobForm.get('job').setValue(row.className);
+
+    if (row.state === 'UNSCHEDULED') {
+      this.jobForm.get('executionType').setValue('1');
+    } else {
+      this.jobForm.get('executionType').setValue('2');
+    }
+
+    this.isFormVisible = true;
   }
 
-  add() {
+  save() {
     if (this.jobForm.invalid || this.jobForm.pending) {
       const controls = this.jobForm.controls;
       Object.keys(controls).forEach(controlName =>
@@ -140,6 +155,42 @@ export class JobsComponent implements OnInit {
       return;
     }
 
+    if (this.jobForm.get('name').value && this.jobForm.get('name').value !== '') {
+      this._update();
+    } else {
+      this._add();
+    }
+  }
+
+  private _update() {
+    const form = this.jobForm.getRawValue();
+    const isFrequency = form.executionType === '2' ? true : false;
+    const routine: Routine = {
+      hasFrequency: isFrequency,
+      frequency: form.frequency,
+      hour: form.frequencyHour,
+      hasRoutine: !isFrequency,
+      interval: form.routineType,
+      time: form.routineTime,
+      startDate: form.startDate,
+      endDate: form.endDate
+    };
+    const cronExpression = CronUtils.generateCron(routine);
+
+    this.jobsService.update(form.name, form.group, cronExpression).subscribe(
+      data => {
+        this.alertService.success('Job successfully updated.', this.alertOptions);
+        this._renewSearch();
+        this.showForm();
+      },
+      err => {
+        this.alertService.error('Error while trying to update the job.', this.alertOptions);
+        console.error(err.error.message);
+      }
+    );
+  }
+
+  private _add() {
     const newJob = {
       cronExpression: '',
       description: this.jobForm.get('description').value,
@@ -166,28 +217,21 @@ export class JobsComponent implements OnInit {
       newJob.cronExpression = CronUtils.generateCron(routine);
     }
 
-    console.log(newJob);
-    // {
-    //   "cronExpression": "string",
-    //   "description": "string",
-    //   "group": "string",
-    //   "name": "string",
-    //   "parameters": {},
-    //   "singleRun": true,
-    //   "startAt": "2020-06-15T15:36:02.978Z"
-    // }
-
-    // Alert
-    // this.alertService.success('Job successfully registered.', this.alertOptions);
-    // this.alertService.error('Error while trying to register the job.', this.alertOptions);
-
-    // When Success
-    // this._renewSearch();
-
-    this.showForm();
+    this.jobsService.save(newJob).subscribe(
+      data => {
+        this.alertService.success('Job successfully registered.', this.alertOptions);
+        this._renewSearch();
+        this.showForm();
+      },
+      err => {
+        this.alertService.error('Error while trying to register the job.', this.alertOptions);
+        console.error(err.error.message);
+      }
+    );
   }
 
   showForm() {
+    this.isEditMode = false;
     this.jobForm.reset();
     this._fillDefault();
     this.isFormVisible = !this.isFormVisible;

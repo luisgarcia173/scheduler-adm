@@ -5,7 +5,8 @@
     "developer": "Luis Garcia",
     "features": [
       "Added new Job Form",
-      "Added new Cron generator feature"
+      "Added new Cron generator feature",
+      "Persist new job with schedule"
     ],
     "bugs": [
     

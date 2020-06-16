@@ -1,5 +1,4 @@
 import cronstrue from 'cronstrue';
-import cronTime from 'cron-time-generator';
 import { Routine } from '../models/routine';
 
 export default class CronUtils {
@@ -25,15 +24,15 @@ export default class CronUtils {
 
       switch (frequency) {
         case 1:
-          cron = cronTime.everyDayAt(hour);
+          cron = `0 0 ${hour} ? * * *`;
           break;
         case 2:
           const weekDay = startDate.day();
-          cron = cronTime.everyWeekAt(weekDay, hour, 0);
+          cron = `0 0 ${hour} ? * ${weekDay} *`;
           break;
         case 3:
           const dayOfTheMonth = startDate.date();
-          cron = cronTime.everyMonthOn(dayOfTheMonth, hour, 0);
+          cron = `0 0 ${hour} ${dayOfTheMonth} * ? *`;
           break;
       }
     }
@@ -44,13 +43,13 @@ export default class CronUtils {
 
       switch (interval) {
         case 1:
-          cron = cronTime.every(time).hours();
+          cron = `0 0 0/${time} 1/1 * ? *`;
           break;
         case 2:
-          cron = cronTime.every(time).minutes();
+          cron = `0 0/${time} * 1/1 * ? *`;
           break;
         case 3:
-          cron = `0/${time} 0 0 ? * * *`;
+          cron = `0/${time} * * 1/1 * ? *`;
           break;
       }
     }

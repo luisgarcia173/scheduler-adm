@@ -43,5 +43,12 @@ export class JobsService {
     return this.http.get<string[]>(`${API}/candidate`);
   }
 
+  save(data: any): Observable<any>  {
+    return this.http.post<any>(API, data);
+  }
+  update(name: string, group: string, cronExpression: string): Observable<any>  {
+    return this.http.put<any>(`${API}/${name}/group/${group}`, cronExpression);
+  }
+
 }
 

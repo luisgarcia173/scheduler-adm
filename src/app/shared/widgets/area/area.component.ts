@@ -9,7 +9,7 @@ import HC_exporting from 'highcharts/modules/exporting';
 })
 export class AreaComponent implements OnInit {
 
-  @Input() data: [] = [];
+  @Input() element: AreaElement;
 
   chartOptions: {};
   Highcharts = Highcharts;
@@ -19,17 +19,21 @@ export class AreaComponent implements OnInit {
   ngOnInit(): void {
     this.chartOptions = {
       chart: {
-        type: 'area'
+        type: 'line'
       },
       title: {
-        text: 'Random DATA'
+        text: 'Daily Schedule'
       },
       subtitle: {
-        text: 'Demo'
+        text: 'Source: Valecard registered jobs'
       },
-      tooltip: {
-        split: true,
-        valueSuffix: ' millions'
+      xAxis: {
+        categories: this.element.categories
+      },
+      yAxis: {
+        title: {
+          text: 'Execution Log'
+        }
       },
       credits: {
         enabled: false,
@@ -48,7 +52,7 @@ export class AreaComponent implements OnInit {
           }
         }
       },
-      series: this.data
+      series: this.element.content
     };
 
     HC_exporting(Highcharts);
@@ -60,4 +64,14 @@ export class AreaComponent implements OnInit {
     }, 300);
   }
 
+}
+
+export interface AreaElement {
+  categories: string[];
+  content: ElementData[];
+}
+
+export interface ElementData {
+  name: string;
+  data: string[];
 }

@@ -1,7 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DashboardService } from './dashboard.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { DashboardService } from './dashboard.service';
+import { JobsService } from 'src/app/shared/services/jobs.service';
+import { CardElement } from 'src/app/shared/widgets/card/card.component';
+import { AreaElement } from 'src/app/shared/widgets/area/area.component';
+import { JobStructure } from 'src/app/shared/models/job-structure';
+import TimeUtils from 'src/app/shared/utils/time-utils';
+import CronUtils from 'src/app/shared/utils/cron-utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,56 +17,186 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class DashboardComponent implements OnInit {
 
-  areaChart = [];
-  cardChart = [];
-  pieChart = [];
+  areaChart: AreaElement;
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  cardAvailable: CardElement;
+  cardUsage: CardElement;
+  cardHit: CardElement;
+  cardRisk: CardElement;
 
-  constructor(private dashboardService: DashboardService) { }
+  stateData = [];
+  groupData = [];
+
+  showArea = false;
+  showCards = false;
+  showPies = false;
+
+  jobsColumns = [
+    { columnDef: 'className', type: 'common', header: 'Job Name', cell: (row: JobStructure) => row.className },
+    { columnDef: 'group', type: 'common', header: 'Group', cell: (row: JobStructure) => row.group },
+    { columnDef: 'state', type: 'common', header: 'State', cell: (row: JobStructure) => row.state },
+    {
+      columnDef: 'frequency',
+      type: 'common',
+      header: 'Frequency',
+      cell: (row: JobStructure) => CronUtils.getTimeFromCron(row.cronExpression) as 'frequency'
+    },
+    {
+      columnDef: 'previousFireTime',
+      type: 'common',
+      header: 'Last Execution',
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.previousFireTime)
+    },
+    {
+      columnDef: 'nextFireTime',
+      type: 'common',
+      header: 'Next Execution',
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.nextFireTime)
+    },
+    {
+      columnDef: 'startTime',
+      type: 'common',
+      header: 'Start Date',
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.startTime)
+    },
+    {
+      columnDef: 'endTime',
+      type: 'common',
+      header: 'End Date',
+      cell: (row: JobStructure) => TimeUtils.getFormattedDateFromTime(row.endTime)
+    },
+  ];
+
+  jobsDisplayedColumns = [];
+  jobsDataSource = new MatTableDataSource<JobStructure>();
+  @ViewChild('jobPaginator', { read: MatPaginator }) jobPaginator: MatPaginator;
+  @ViewChild('jobSort', { read: MatSort }) jobSort: MatSort;
+  isJobsLoading = true;
+
+  constructor(
+    private dashboardService: DashboardService,
+    private jobsService: JobsService
+  ) { }
 
   ngOnInit(): void {
-    this.areaChart = this.dashboardService.areaChart();
-    this.cardChart = this.dashboardService.cardChart();
-    this.pieChart = this.dashboardService.pieChart();
-    this.dataSource.paginator = this.paginator;
+    this.jobsDisplayedColumns = this.jobsColumns.map(column => column.columnDef);
+
+    this.jobsService.listJobs().subscribe(jobs => {
+
+      this.areaChart = this.dashboardService.areaChart(jobs);
+      this.showArea = true;
+
+      this.cardUsage = this._fillCardUsage(jobs);
+      this.cardHit = this._fillCardHit(jobs);
+      this.cardRisk = this._fillCardRisk(jobs);
+
+      this.jobsService.listAvailableJobs().subscribe(candidates => {
+        const mapReduceJobs = jobs
+          .map(job => job.className)
+          .reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+        this.cardAvailable = this._fillCardAvailble(mapReduceJobs, candidates);
+
+        this.showCards = true;
+      });
+
+      this.stateData = this.dashboardService.pieChartState(jobs);
+      this.groupData = this.dashboardService.pieChartGroup(jobs);
+      this.showPies = true;
+
+      this.jobsDataSource = new MatTableDataSource<JobStructure>(jobs);
+      this.jobsDataSource.paginator = this.jobPaginator;
+      this.jobsDataSource.sort = this.jobSort;
+      this.isJobsLoading = false;
+    });
+
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  private _fillCardAvailble(jobs: string[], candidates: string[]) {
+
+    let used = 0;
+    jobs.forEach(job => {
+      if (candidates.includes(job)) {
+        used++;
+      }
+    });
+
+    const percent = ((used / candidates.length) * 100).toFixed(2);
+
+    const data = {
+      title: 'REGISTERED x AVAILABLE',
+      icon: 'event_available',
+      value: String(used),
+      of: String(candidates.length),
+      percentage: String(percent),
+      description: 'Total of Jobs:',
+      detail: null
+    };
+    return data;
+  }
+
+  private _fillCardUsage(jobs: JobStructure[]) {
+
+    const total = jobs.length;
+    const inUse = jobs.map(job => job.state).filter(state => state === 'NORMAL').length;
+    const percent = ((inUse / total) * 100).toFixed(2);
+
+    const data = {
+      title: 'REGISTERED x USED',
+      icon: 'event',
+      value: String(inUse),
+      of: String(total),
+      percentage: String(percent),
+      description: 'Total of Jobs:',
+      detail: null
+    };
+    return data;
+  }
+
+  private _fillCardHit(jobs: JobStructure[]) {
+
+    const jobNames = jobs.map(job => job.className);
+    const mappedGroups = new Map();
+    jobNames.forEach(jobName => {
+      mappedGroups.set(jobName, jobNames.filter(jn => jn === jobName).length);
+    });
+    const mapSorted = new Map([...mappedGroups.entries()].sort((a, b) => b[1] - a[1]));
+
+    const highestHitted = mapSorted.entries().next().value;
+
+    const total = jobs.length;
+    const percent = ((highestHitted[1] / total) * 100).toFixed(2);
+
+    const data = {
+      title: 'USED x HIT',
+      icon: 'event_note',
+      value: String(highestHitted[1]),
+      of: String(total),
+      percentage: String(percent),
+      description: 'Total of Hits',
+      detail: `${highestHitted[0]}`
+    };
+    return data;
+  }
+
+  private _fillCardRisk(jobs: JobStructure[]) {
+    const total = jobs.length;
+    const inUse = jobs
+      .map(job => job.state)
+      .filter(state => {
+        return ( state === 'PAUSED' || state === 'ERROR' || state === 'BLOCKED');
+      }).length;
+    const percent = ((inUse / total) * 100).toFixed(2);
+
+    const data = {
+      title: 'RISK STATE',
+      icon: 'event_busy',
+      value: String(inUse),
+      of: String(total),
+      percentage: String(percent),
+      description: 'Total of Jobs:',
+      detail: null
+    };
+    return data;
   }
 
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];

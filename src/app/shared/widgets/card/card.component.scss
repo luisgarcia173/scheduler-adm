@@ -1,24 +1,49 @@
-h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
+.text {
+  color: white;
 }
 
-.total {
-  font-size: 3em;
+.title {
+  font-weight: bold;
 }
 
-.mat-icon,
 .description {
-  color: darkkhaki;
-  font-size: 2em;
+  font-size: 1em;
+}
+
+.detail {
+  float: right;
 }
 
 .mat-icon {
-  position: relative;
-  padding: 0 20px;
-  top: 5px;
+  font-size: 1.5em;
+  float: right;
 }
 
-.widget {
-  
+progress {
+  border: none;
+  width: 400px;
+  height: 60px;
+  background: crimson;
+}
+
+progress {
+  width: 100%;
+  border-radius: 5px;
+  height: 5px;
+}
+
+progress::-moz-progress-value {
+  background: white;
+}
+
+progress::-moz-progress-bar {
+  background: lightgray;
+}
+
+progress::-webkit-progress-value {
+  background: white;
+}
+
+progress::-webkit-progress-bar {
+  background: lightgray;
 }

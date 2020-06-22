@@ -35,15 +35,15 @@
               <div [fxLayout]="formLayout">
                 <mat-form-field fxFlex>
                   <mat-label>Group</mat-label>
-                  <input matInput placeholder="Group" formControlName="group" required>
+                  <input matInput placeholder="Group" formControlName="group" required [readonly]="isEditMode">
                 </mat-form-field>
                 <mat-form-field fxFlex>
                   <mat-label>Description</mat-label>
-                  <input matInput placeholder="Description" formControlName="description" required>
+                  <input matInput placeholder="Description" formControlName="description" required [readonly]="isEditMode">
                 </mat-form-field>
                 <mat-form-field fxFlex>
                   <mat-label>Job</mat-label>
-                  <mat-select formControlName="job" required>
+                  <mat-select formControlName="job" required [disabled]="isEditMode">
                     <mat-option>Select</mat-option>
                     <mat-option *ngFor="let job of availableJobs" [value]="job">
                       {{job}}
@@ -75,16 +75,16 @@
                 </mat-form-field>
     
                 <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '3'">
-                  <mat-label>Time</mat-label>
-                  <input matInput type="number" placeholder="Time" formControlName="routineTime">
-                </mat-form-field>
-                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '3'">
                   <mat-label>Type</mat-label>
                   <mat-select formControlName="routineType">
                     <mat-option value="1">Hour</mat-option>
                     <mat-option value="2">Minute</mat-option>
                     <mat-option value="3">Second</mat-option>
                   </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value === '3'">
+                  <mat-label>Time</mat-label>
+                  <input matInput type="number" placeholder="Time" formControlName="routineTime">
                 </mat-form-field>
     
                 <mat-form-field fxFlex *ngIf="jobForm.get('executionType').value !== '1'">

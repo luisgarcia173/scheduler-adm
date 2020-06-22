@@ -1,22 +1,17 @@
 <div class="text">
-  <h4>{{ label }}</h4>
+  <div>
+    <span class="title">{{ element.title }}{{element.detail ? ': ['+element.detail+']' : ''}}</span>
+    <mat-icon>{{ element.icon }}</mat-icon>
+  </div>
+
+  <br/>
   
-  <span class="total">{{ total }}</span>
+  <progress min="0" max="100" [value]="element.percentage"></progress>
+  
+  <br/><br/>
 
-  <span>
-    <mat-icon>trending_up</mat-icon>
-  </span>
-
-  <span class="description">
-    {{ percentage }}%
-  </span>
-
-  <span> of target</span>
-</div>
-<div class="widget">
-  <highcharts-chart 
-    [Highcharts]="Highcharts"
-    [options]="chartOptions"
-    style="width: 100%; height: 60px; display: block;"
-  ></highcharts-chart>
+  <div>
+    <span class="description">{{ element.description }}</span>
+    <span class="detail"> ({{ element.value }}/{{ element.of }})</span>
+  </div>
 </div>

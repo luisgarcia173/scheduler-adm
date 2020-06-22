@@ -17,7 +17,7 @@ export class ServerStatusComponent implements OnInit {
 
   ngOnInit(): void {
     this._getServerStatus();
-    interval(500 * 60).subscribe(x => {
+    interval(1000 * 60).subscribe(x => {
       this._getServerStatus();
     });
   }

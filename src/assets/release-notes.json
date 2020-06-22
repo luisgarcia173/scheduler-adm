@@ -1,5 +1,21 @@
 [
   {
+    "version": "0.4.0",
+    "date": "22/06/2020",
+    "developer": "Luis Garcia",
+    "features": [
+      "Added Area Chart using job data",
+      "Added Card for KPIs",
+      "Added Pie Chart to grouping jobs",
+      "Added Job log"
+    ],
+    "bugs": [
+    ],
+    "notes": [
+      
+    ]
+  },
+  {
     "version": "0.3.1",
     "date": "15/06/2020",
     "developer": "Luis Garcia",

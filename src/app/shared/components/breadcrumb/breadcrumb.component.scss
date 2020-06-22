@@ -8,42 +8,39 @@
   margin-right: 2px;
 }
 
+#breadcrumb .mat-icon,
+#breadcrumb label {
+  color: #FFF;
+}
+
+#breadcrumb.alternative .mat-icon,
+#breadcrumb.alternative label,
+#breadcrumb.dark .mat-icon,
+#breadcrumb.dark label {
+  color: #000;
+}
+
 #breadcrumb.light {
   background-color: #64b5f6;
   border: 1px solid #1976d2;
-}
-.light {
-  color: #FFF;
 }
 
 #breadcrumb.dark {
   background-color: #ffee58;
   border: 1px solid #f9a825;
 }
-.dark {
-  color: rgba(0,0,0,.6);
-}
 
 #breadcrumb.alternative {
   background-color: #f8bbd0;
   border: 1px solid #c2185b;
-}
-.alternative {
-  color: #c2185b;
 }
 
 #breadcrumb.default {
   background-color: #c299ff;
   border: 1px solid #6600ff;
 }
-.default {
-  color: #6600ff;
-}
 
 #breadcrumb.green {
   background-color: #66ff66;
   border: 1px solid #00b300;
-}
-.green {
-  color: rgba(0,0,0,.6);
 }

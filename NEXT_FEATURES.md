@@ -6,4 +6,3 @@
 - [ ] Validations
 
 ## Views: To-Do
-- [ ] Dashboard > Rebuild Charts

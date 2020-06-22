@@ -10,6 +10,7 @@ import HC_exporting from 'highcharts/modules/exporting';
 export class PieComponent implements OnInit {
 
   @Input() data: [] = [];
+  @Input() title: string;
 
   chartOptions: {};
   Highcharts = Highcharts;
@@ -25,7 +26,7 @@ export class PieComponent implements OnInit {
         type: 'pie'
       },
       title: {
-        text: 'Random DATA'
+        text: this.title
       },
       tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

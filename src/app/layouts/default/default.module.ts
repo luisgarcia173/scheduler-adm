@@ -27,6 +27,7 @@ import { JobsComponent } from 'src/app/modules/jobs/jobs.component';
 import { MonitorComponent } from 'src/app/modules/monitor/monitor.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DefaultComponent } from './default.component';
+import { LoginComponent } from 'src/app/modules/login/login.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { DefaultComponent } from './default.component';
     DefaultComponent,
     DashboardComponent,
     MonitorComponent,
-    JobsComponent
+    JobsComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

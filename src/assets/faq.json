@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "question": "How to register a new Job?",
+    "response": "> Click on Jobs menu > Click on Add > Set frequency parameters > Click Save",
+    "gif": "new-job"
+  },
+  {
+    "id": "2",
+    "question": "How to update an existing Job?",
+    "response": "> Click on Jobs menu > Click on edit icon inside the table > Set the new scheduler > Click Save",
+    "gif": ""
+  }
+]

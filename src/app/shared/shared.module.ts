@@ -13,6 +13,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -31,6 +34,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from './components/alert/alert.service';
 import { ServerStatusComponent } from './components/server-status/server-status.component';
 import { JobsService } from './services/jobs.service';
+import { FaqComponent } from './components/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +50,7 @@ import { JobsService } from './services/jobs.service';
     SpinnerComponent,
     AlertComponent,
     ServerStatusComponent,
+    FaqComponent,
   ],
   imports: [
     CommonModule,
@@ -63,7 +68,10 @@ import { JobsService } from './services/jobs.service';
     HttpClientModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTooltipModule,
+    MatExpansionModule,
+    MatFormFieldModule
   ],
   exports: [
     HeaderComponent,
@@ -77,7 +85,8 @@ import { JobsService } from './services/jobs.service';
     ReleaseNotesComponent,
     SpinnerComponent,
     AlertComponent,
-    ServerStatusComponent
+    ServerStatusComponent,
+    FaqComponent
   ],
   providers: [
     AlertService,

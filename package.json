@@ -25,7 +25,7 @@
     "@angular/router": "~9.1.9",
     "cron-parser": "^2.15.0",
     "cronstrue": "^1.94.0",
-    "highcharts": "^8.1.1",
+    "highcharts": "^9.0.0",
     "highcharts-angular": "^2.4.0",
     "moment": "^2.26.0",
     "ngx-permissions": "^7.0.3",

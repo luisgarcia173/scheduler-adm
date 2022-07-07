@@ -27,7 +27,7 @@
     "cronstrue": "^1.94.0",
     "highcharts": "^8.1.1",
     "highcharts-angular": "^2.4.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "ngx-permissions": "^7.0.3",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
